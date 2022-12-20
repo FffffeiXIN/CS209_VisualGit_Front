@@ -7,7 +7,7 @@
             <div slot="header" class="clearfix">
               <span>Total Number of Issues</span>
             </div>
-            <div style="font-size: 18px;text-align: center;">{{ total }}</div>
+            <div style="font-size: 18px;text-align: center;">{{ this.open+this.close }}</div>
           </el-card>
         </el-col>
         <el-col :span="7">
@@ -15,7 +15,7 @@
             <div slot="header" class="clearfix">
               <span>Opened Issues</span>
             </div>
-            <div style="font-size: 18px;text-align: center;">{{ open }}</div>
+            <div style="font-size: 18px;text-align: center;">{{ this.open }}</div>
           </el-card>
         </el-col>
         <el-col :span="7">
@@ -23,7 +23,7 @@
             <div slot="header" class="clearfix">
               <span>Closed Issues</span>
             </div>
-            <div style="font-size: 18px;text-align: center;">{{ close }}</div>
+            <div style="font-size: 18px;text-align: center;">{{ this.close }}</div>
           </el-card>
         </el-col>
       </el-row>
@@ -34,7 +34,7 @@
             <div slot="header" class="clearfix">
               <span>Average</span>
             </div>
-            <div style="font-size: 18px;text-align: center;">{{ total }}</div>
+            <div style="font-size: 18px;text-align: center;">{{ this.average }}</div>
           </el-card>
         </el-col>
         <el-col :span="7">
@@ -42,7 +42,7 @@
             <div slot="header" class="clearfix">
               <span>Difference of extreme values</span>
             </div>
-            <div style="font-size: 18px;text-align: center;">{{ average }}</div>
+            <div style="font-size: 18px;text-align: center;">{{ this.difference }}</div>
           </el-card>
         </el-col>
         <el-col :span="7">
@@ -50,7 +50,7 @@
             <div slot="header" class="clearfix">
               <span>variance</span>
             </div>
-            <div style="font-size: 18px;text-align: center;">{{ difference }}</div>
+            <div style="font-size: 18px;text-align: center;">{{ this.variance}}</div>
           </el-card>
         </el-col>
       </el-row>
@@ -73,12 +73,12 @@ export default {
   // components: { char },
   data () {
     return {
-      total: 4,
-      close: 1,
-      open: 3,
-      difference: 7,
-      average: 9,
-      variance: 10,
+      total: '0',
+      close: '1',
+      open: '3',
+      difference: '0.0',
+      average: '0.0',
+      variance: '0.0',
       barxData: [],
       baryData: []
     }
@@ -91,7 +91,7 @@ export default {
       }).then(response => {
         // 须补充
         // this.total = response.data.data.
-        this.open = response.data.data.issue.length
+        this.open = response.data.data.quantity
         // this.open = response.data.data.
         // this.difference = response.data.data.
         // this.average = response.data.data.
@@ -105,8 +105,7 @@ export default {
       }).then(response => {
         // 须补充
         // this.total = response.data.data.
-        this.close = response.data.data.issue.length
-        // this.open = response.data.data.
+        this.close = response.data.data.quantity
         this.difference = response.data.data.range
         this.average = response.data.data.average
         this.variance = response.data.data.standardDeviation
@@ -114,6 +113,8 @@ export default {
         // this.baryData = response.data.data.
       })
       this.total = this.open + this.close
+      console.log(this.average)
+      console.log(this.total)
     },
     drawBar () {
       console.log('draw')
