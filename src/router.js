@@ -4,6 +4,7 @@ import Developer from '@/components/Developer'
 import Issues from '@/components/Issues'
 import Releases from '@/components/Releases'
 import Bar from '@/components/bar'
+import Commit from '@/components/Commit'
 Vue.use(Router)
 
 export default new Router({
@@ -27,6 +28,11 @@ export default new Router({
       path: '/bar',
       name: 'Bar',
       component: Bar
+    },
+    {
+      path: '/AnalyseCommit',
+      name: 'Commit',
+      component: Commit
     }
   ]
 })

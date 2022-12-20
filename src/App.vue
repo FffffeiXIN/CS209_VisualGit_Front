@@ -21,6 +21,7 @@
             </el-menu-item>
           </el-submenu>
         </el-menu>
+        <el-button type="warning" @click="configure()" style="margin-top: 20px">确认</el-button>
       </el-aside>
 
       <el-main>
@@ -30,12 +31,10 @@
           class="el-menu-vertical-demo"
           @open="handleOpen"
           @close="handleClose">
-          <el-menu-item index="1" :route="{path: '/Developers', query: {repo: this.chosen_repo_url}}"
-                        @click="toDevelopers()"> Developers
-          </el-menu-item>
+          <el-menu-item index="1" :route="{path: '/Developers', query: {repo: this.chosen_repo_url}}"> Developers</el-menu-item>
           <el-menu-item index="2" :route="{path: '/Issues', query: {repo: this.chosen_repo_url}}"> Issues</el-menu-item>
-          <el-menu-item index="3" :route="{path: '/Releases', query: {repo: this.chosen_repo_url}}"> Releases
-          </el-menu-item>
+          <el-menu-item index="3" :route="{path: '/Releases', query: {repo: this.chosen_repo_url}}"> Releases</el-menu-item>
+          <el-menu-item index="4" :route="{path: '/AnalyseCommit', query: {repo: this.chosen_repo_url}}"> Commits</el-menu-item>
         </el-menu>
         <router-view></router-view>
       </el-main>
@@ -95,33 +94,40 @@ export default {
     },
     choose_repo (index) {
       // console.log(index)
-      this.chosen_repo = index.name
-      this.chosen_repo_url = index.id
+      this.temp_choose = index
       // console.log(this.chosen_repo)
     },
     getRepo () {
+      console.log(this.repo_info)
+      console.log(this.repo_cnt)
       axios({
         method: 'GET',
-        url: 'http://localhost:8080/getAllRepo'
+        url: 'http://localhost:8080/repository/getAllRepo'
       }).then(response => {
-        this.repo_cnt = response.data.data.repo_count
-        this.info = response.data.data.repos
+        let tmp = response.data.data.repository
+        this.repo_cnt = tmp.length
+        this.repo_info = []
+        for (let i = 0; i < tmp.length; i++) {
+          this.repo_info.push(tmp[i])
+        }
       })
+      console.log(this.repo_info)
+      console.log(this.repo_cnt)
     },
-    toDevelopers () {
-      this.$router.push({ path: '/Developers', query: { repo: this.chosen_repo_url } })
+    configure () {
+      this.chosen_repo = this.temp_choose.name
+      this.chosen_repo_url = this.temp_choose.id
+      this.$router.push('/')
     }
+    // toDevelopers () {
+    //   this.$router.push({ path: '/Developers', query: { repo: this.chosen_repo_url } })
+    // }
   },
   data () {
     return {
-      repo_cnt: 2,
-      repo_info: [{
-        name: 'msgpack-c',
-        id: 'https://api.github.com/repos/msgpack/msgpack-c'
-      }, {
-        name: 'python-fire',
-        id: 'https://api.github.com/repos/google/python-fire'
-      }],
+      repo_cnt: 0,
+      repo_info: [],
+      temp_choose: [],
       chosen_repo: '',
       chosen_repo_url: '',
       activeName: 'first',

@@ -14,19 +14,19 @@
       style="width: 100%;" align="center">
       <el-table-column
         prop="rank"
-        label="排名"
+        label="Rank"
         width="180"
         align="center">
       </el-table-column>
       <el-table-column
         prop="name"
-        label="姓名"
+        label="User id"
         width="180"
         align="center">
       </el-table-column>
       <el-table-column
         prop="submission"
-        label="提交次数"
+        label="Commit times"
         width="180"
         align="center">
       </el-table-column>

@@ -2,7 +2,6 @@
   <div>
     <div class="proCharts" ref='charts'>
     </div>
-
   </div>
 
 </template>
@@ -130,9 +129,8 @@ export default {
     mycharts () {
       let myChart = this.$echarts.init(this.$refs.charts, 'macarons')
       myChart.setOption(this.option)
-      //图表自适应
       window.addEventListener('resize', function () {
-        myChart.resize()  // myChart 是实例对象
+        myChart.resize()
       })
     }
   }

@@ -87,11 +87,11 @@ export default {
     getData () {
       axios({
         method: 'GET',
-        url: 'http://localhost:8080/Developers'
+        url: 'http://localhost:8080/repository/openissue?repos=' + this.$route.query.repo
       }).then(response => {
         // 须补充
         // this.total = response.data.data.
-        // this.close = response.data.data.
+        this.open = response.data.data.issue.length
         // this.open = response.data.data.
         // this.difference = response.data.data.
         // this.average = response.data.data.
@@ -99,12 +99,27 @@ export default {
         // this.barxData = response.data.data.
         // this.baryData = response.data.data.
       })
+      axios({
+        method: 'GET',
+        url: 'http://localhost:8080/repository/closeissue?repos=' + this.$route.query.repo
+      }).then(response => {
+        // 须补充
+        // this.total = response.data.data.
+        this.close = response.data.data.issue.length
+        // this.open = response.data.data.
+        this.difference = response.data.data.range
+        this.average = response.data.data.average
+        this.variance = response.data.data.standardDeviation
+        // this.barxData = response.data.data.
+        // this.baryData = response.data.data.
+      })
+      this.total = this.open + this.close
     },
     drawBar () {
       console.log('draw')
       axios({
         method: 'GET',
-        url: 'http://localhost:8080/Developers?repo=' + this.$route.query.repo
+        url: 'http://localhost:8080/repository/openissue?repos=' + this.$route.query.repo
       }).then(response => {
         // 须补充
         // this.barxData = response.data.data.
@@ -156,7 +171,7 @@ export default {
   margin-bottom: 30px;
 }
 .btn{
-  display: inline-flex;
+  display: flex;
   text-align: left;
   justify-content: center;
 }
