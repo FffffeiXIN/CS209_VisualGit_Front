@@ -3,8 +3,8 @@
     <div>
       <el-row :gutter="20" class="row1">
         <el-col :span="7">
-          <el-card shadow="hover" style="width: 100%; height: 100%; background: antiquewhite;" >
-            <div slot="header" class="clearfix">
+          <el-card shadow="hover" style="width: 100%; height: 100%" >
+            <div slot="header" class="clearfix" style="background: antiquewhite">
               <span>Total Number of Issues</span>
             </div>
             <div style="font-size: 18px;text-align: center;">{{ this.open+this.close }}</div>
@@ -12,7 +12,7 @@
         </el-col>
         <el-col :span="7">
           <el-card shadow="hover" style="width: 100%;">
-            <div slot="header" class="clearfix">
+            <div slot="header" class="clearfix" style="background: antiquewhite">
               <span>Opened Issues</span>
             </div>
             <div style="font-size: 18px;text-align: center;">{{ this.open }}</div>
@@ -20,7 +20,7 @@
         </el-col>
         <el-col :span="7">
           <el-card shadow="hover" style="width: 100%;">
-            <div slot="header" class="clearfix">
+            <div slot="header" class="clearfix" style="background: antiquewhite">
               <span>Closed Issues</span>
             </div>
             <div style="font-size: 18px;text-align: center;">{{ this.close }}</div>
@@ -30,35 +30,47 @@
 
       <el-row :gutter="20" class="row2">
         <el-col :span="7">
-          <el-card shadow="hover" style="width: 100%; height: 100%; background: antiquewhite;" >
-            <div slot="header" class="clearfix">
+          <el-card shadow="hover" style="width: 100%; height: 100%;" >
+            <div slot="header" class="clearfix" style="background: antiquewhite">
               <span>Average</span>
             </div>
-            <div style="font-size: 18px;text-align: center;">{{ this.average }}</div>
+            <div style="font-size: 18px;text-align: center;">
+              {{ this.average }} ms
+              <br>
+              {{ this.average/3600/1000 }} h
+            </div>
           </el-card>
         </el-col>
         <el-col :span="7">
           <el-card shadow="hover" style="width: 100%;">
-            <div slot="header" class="clearfix">
+            <div slot="header" class="clearfix" style="background: antiquewhite">
               <span>Difference of extreme values</span>
             </div>
-            <div style="font-size: 18px;text-align: center;">{{ this.difference }}</div>
+            <div style="font-size: 18px;text-align: center;">
+              {{ this.difference }} ms
+              <br>
+              {{ this.difference/24/3600/1000 }} day
+            </div>
           </el-card>
         </el-col>
         <el-col :span="7">
           <el-card shadow="hover" style="width: 100%;">
-            <div slot="header" class="clearfix">
+            <div slot="header" class="clearfix" style="background: antiquewhite">
               <span>variance</span>
             </div>
-            <div style="font-size: 18px;text-align: center;">{{ this.variance}}</div>
+            <div style="font-size: 18px;text-align: center;">
+              {{ this.variance}} ms
+              <br>
+              {{ this.variance/24/3600/1000 }} day
+            </div>
           </el-card>
         </el-col>
       </el-row>
     </div>
-    <div class="btn">
-      <el-button type="primary" @click="drawBar()" style="max-height: 50px;margin-top: 200px" plain  >时间分布</el-button>
-      <div id="main" style="width: 600px;height:400px;"></div>
-    </div>
+<!--    <div class="btn">-->
+<!--      <el-button type="primary" @click="drawBar()" style="max-height: 50px;margin-top: 200px" plain  >时间分布</el-button>-->
+<!--      <div id="main" style="width: 600px;height:400px;"></div>-->
+<!--    </div>-->
 <!--    <char></char>-->
   </div>
 </template>

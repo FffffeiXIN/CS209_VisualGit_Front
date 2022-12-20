@@ -34,7 +34,13 @@
           <el-menu-item index="1" :route="{path: '/Developers', query: {repo: this.chosen_repo_url}}"> Developers</el-menu-item>
           <el-menu-item index="2" :route="{path: '/Issues', query: {repo: this.chosen_repo_url}}"> Issues</el-menu-item>
           <el-menu-item index="3" :route="{path: '/Releases', query: {repo: this.chosen_repo_url}}"> Releases</el-menu-item>
-          <el-menu-item index="4" :route="{path: '/AnalyseCommit', query: {repo: this.chosen_repo_url}}"> Commits</el-menu-item>
+          <el-submenu index="4">
+            <template slot="title">Commits</template>
+            <el-menu-item index="4-3" :route="{path: '/AnalyseCommit', query: {type:'Hour', repo: this.chosen_repo_url}}">Analyse by Hour</el-menu-item>
+            <el-menu-item index="4-1" :route="{path: '/AnalyseCommit', query: {type:'Day', repo: this.chosen_repo_url}}">Analyse by Day</el-menu-item>
+            <el-menu-item index="4-2" :route="{path: '/AnalyseCommit', query: {type:'Month', repo: this.chosen_repo_url}}">Analyse by Month</el-menu-item>
+            <el-menu-item index="4-3" :route="{path: '/AnalyseCommit', query: {type:'Year', repo: this.chosen_repo_url}}">Analyse by Year</el-menu-item>
+          </el-submenu>
         </el-menu>
         <router-view></router-view>
       </el-main>

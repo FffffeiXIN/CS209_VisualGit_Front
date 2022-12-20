@@ -7,7 +7,7 @@
                           :title="'Release '+index+' has '+item.length+' commit(s)'">
           <div class="content" v-for="(commit,idx) in item" :key="idx">
             <el-divider></el-divider>
-            <h4>Commit {{ idx + 1 }} : {{ commit.commit_time }}</h4>
+            <h4>Commit {{ idx + 1 }} : {{ commit.commit_time.replace('T',' ') }}</h4>
             <!--            {{ commit.commiter }} 提交于 {{ commit.time }}-->
             <!--            <br>-->
             <!--            {{commit.link}}-->
