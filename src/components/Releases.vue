@@ -8,6 +8,7 @@
           <div class="content" v-for="(commit,idx) in item" :key="idx">
             <el-divider></el-divider>
             <h4>Commit {{ idx + 1 }} : {{ commit.commit_time.replace('T',' ') }}</h4>
+            id: {{commit.id}}
             <!--            {{ commit.commiter }} 提交于 {{ commit.time }}-->
             <!--            <br>-->
             <!--            {{commit.link}}-->

@@ -3,11 +3,11 @@
     <div>
       <el-row :gutter="20" class="row1">
         <el-col :span="7">
-          <el-card shadow="hover" style="width: 100%; height: 100%" >
+          <el-card shadow="hover" style="width: 100%; height: 100%">
             <div slot="header" class="clearfix" style="background: antiquewhite">
               <span>Total Number of Issues</span>
             </div>
-            <div style="font-size: 18px;text-align: center;">{{ this.open+this.close }}</div>
+            <div style="font-size: 18px;text-align: center;">{{ this.open + this.close }}</div>
           </el-card>
         </el-col>
         <el-col :span="7">
@@ -30,14 +30,14 @@
 
       <el-row :gutter="20" class="row2">
         <el-col :span="7">
-          <el-card shadow="hover" style="width: 100%; height: 100%;" >
+          <el-card shadow="hover" style="width: 100%; height: 100%;">
             <div slot="header" class="clearfix" style="background: antiquewhite">
               <span>Average</span>
             </div>
             <div style="font-size: 18px;text-align: center;">
-              {{ this.average }} ms
-              <br>
-              {{ this.average/3600/1000 }} h
+              <!--              {{ this.average }} ms-->
+              <!--              <br>-->
+              {{ (this.average / 3600 / 1000).toString().substring(0,5) }} h
             </div>
           </el-card>
         </el-col>
@@ -47,9 +47,9 @@
               <span>Difference of extreme values</span>
             </div>
             <div style="font-size: 18px;text-align: center;">
-              {{ this.difference }} ms
-              <br>
-              {{ this.difference/24/3600/1000 }} day
+              <!--              {{ this.difference }} ms-->
+              <!--              <br>-->
+              {{ (this.difference / 24 / 3600 / 1000).toString().substring(0,5) }} day
             </div>
           </el-card>
         </el-col>
@@ -59,19 +59,18 @@
               <span>variance</span>
             </div>
             <div style="font-size: 18px;text-align: center;">
-              {{ this.variance}} ms
-              <br>
-              {{ this.variance/24/3600/1000 }} day
+              <!--              {{ this.variance}} ms-->
+              <!--              <br>-->
+              {{ (this.variance / 24 / 3600 / 1000).toString().substring(0,5) }} day
             </div>
           </el-card>
         </el-col>
       </el-row>
     </div>
-<!--    <div class="btn">-->
-<!--      <el-button type="primary" @click="drawBar()" style="max-height: 50px;margin-top: 200px" plain  >时间分布</el-button>-->
-<!--      <div id="main" style="width: 600px;height:400px;"></div>-->
-<!--    </div>-->
-<!--    <char></char>-->
+        <div class="btn">
+          <el-button type="primary" @click="drawBar()" style="max-height: 50px;margin-top: 200px" plain  >Percentage</el-button>
+          <div id="mychart" style="width: 600px;height:400px;"></div>
+        </div>
   </div>
 </template>
 
@@ -130,19 +129,63 @@ export default {
     },
     drawBar () {
       console.log('draw')
-      axios({
-        method: 'GET',
-        url: 'http://localhost:8080/repository/openissue?repos=' + this.$route.query.repo
-      }).then(response => {
-        // 须补充
-        // this.barxData = response.data.data.
-        // this.baryData = response.data.data.
-      })
-      this.barxData = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      this.baryData = [120, 200, 150, 80, 70, 110, 130]
-      setTimeout(() => {
-        this.echartsInit() // 初始化品质异常单饼图
-      }, 100)
+      this.initEcharts()
+      // axios({
+      //   method: 'GET',
+      //   url: 'http://localhost:8080/repository/openissue?repos=' + this.$route.query.repo
+      // }).then(response => {
+      //   // 须补充
+      //   // this.barxData = response.data.data.
+      //   // this.baryData = response.data.data.
+      // })
+      // this.barxData = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      // this.baryData = [120, 200, 150, 80, 70, 110, 130]
+      // setTimeout(() => {
+      //   this.echartsInit() // 初始化品质异常单饼图
+      // }, 100)
+    },
+    initEcharts () {
+      // 饼图
+      const option = {
+        legend: {
+          // 图例
+          data: this.pieName,
+          right: '5%',
+          top: '35%',
+          orient: 'vertical'
+        },
+        // title: {
+        //   // 设置饼图标题，位置设为顶部居中
+        //   text: '国内院士前五省份图示',
+        //   top: '0%',
+        //   left: 'center'
+        // },
+        series: [
+          {
+            type: 'pie',
+            label: {
+              show: true,
+              formatter: '{b} :{d}%' // b代表名称，c代表对应值，d代表百分比
+            },
+            radius: '70%', //饼图半径
+            data: [{ value: this.open, name: 'Open issue' }, { value: this.close, name: 'Closed issue' }]
+          }
+        ]
+      }
+      console.log(this.seriesData)
+      let optionFree = {
+        xAxis: {},
+        yAxis: {},
+        series: [
+          {
+            data: this.seriesData,
+            type: 'line',
+            smooth: true
+          }
+        ]
+      }
+      this.myChart = this.$echarts.init(document.getElementById('mychart'))
+      this.myChart.setOption(option)
     },
     echartsInit () {
       console.log('aaa')
@@ -179,11 +222,13 @@ export default {
   font-size: 25px;
   display: inline-block;
 }
-.row1{
+
+.row1 {
   margin-top: 30px;
   margin-bottom: 30px;
 }
-.btn{
+
+.btn {
   display: flex;
   text-align: left;
   justify-content: center;

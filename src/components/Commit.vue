@@ -298,7 +298,7 @@ export default {
           //修改一下data的绑定
           data: this.charxData,
           axisLabel: {//坐标轴刻度标签的相关设置
-            show: false,
+            show: true,
             interval: 0,
             textStyle:
               {
